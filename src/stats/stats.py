@@ -12,8 +12,10 @@ class Stats:
         Ejemplo:
             promedio([1, 2, 3, 4, 5]) -> 3.0
         """
-        pass
-    
+        if not numeros:
+            return 0
+        return sum(numeros) / len(numeros)
+
     def mediana(self, numeros):
         """
         Encuentra el valor mediano de una lista de números.
@@ -29,8 +31,17 @@ class Stats:
             mediana([1, 2, 3, 4, 5]) -> 3.0
             mediana([1, 2, 3, 4]) -> 2.5
         """
-        pass
-    
+        if not numeros:
+            return 0
+        sorted_numbers = sorted(numeros)
+        n = len(sorted_numbers)
+        if n % 2 == 1:
+            return float(sorted_numbers[n // 2])
+        else:
+            mid1 = sorted_numbers[(n // 2) - 1]
+            mid2 = sorted_numbers[n // 2]
+            return (mid1 + mid2) / 2.0
+
     def moda(self, numeros):
         """
         Encuentra el valor que aparece con mayor frecuencia en la lista.
@@ -45,8 +56,19 @@ class Stats:
         Ejemplo:
             moda([1, 2, 2, 3, 3, 3]) -> 3
         """
-        pass
+        if not numeros:
+            return None
+
+        frecuencias = {}
+        for num in numeros:
+            frecuencias[num] = frecuencias.get(num, 0) + 1
+
+        max_frecuencia = max(frecuencias.values())
     
+        for num in numeros:
+            if frecuencias[num] == max_frecuencia:
+                return num
+
     def desviacion_estandar(self, numeros):
         """
         Calcula la desviación estándar de una lista de números.
@@ -61,8 +83,13 @@ class Stats:
         Ejemplo:
             desviacion_estandar([1, 2, 3, 4, 5]) -> 1.41...
         """
-        pass
-    
+        if not numeros:
+            return 0
+        prom = self.promedio(numeros)
+        cuadrados = [(x - prom) ** 2 for x in numeros]
+        var = sum(cuadrados) / len(numeros)
+        return var ** 0.5
+
     def varianza(self, numeros):
         """
         Calcula la varianza de una lista de números.
@@ -77,8 +104,12 @@ class Stats:
         Ejemplo:
             varianza([1, 2, 3, 4, 5]) -> 2.0
         """
-        pass
-    
+        if not numeros:
+            return 0
+        prom = self.promedio(numeros)
+        cuadrados = [(x - prom) ** 2 for x in numeros]
+        return sum(cuadrados) / len(numeros)
+
     def rango(self, numeros):
         """
         Calcula el rango (diferencia entre el valor máximo y mínimo).
@@ -92,4 +123,6 @@ class Stats:
         Ejemplo:
             rango([1, 5, 3, 9, 2]) -> 8
         """
-        pass
+        if not numeros:
+            return 0
+        return max(numeros) - min(numeros)
