@@ -14,7 +14,14 @@ class Magic:
         Returns:
             int: El n-ésimo número de Fibonacci
         """
-        pass
+        if n < 0:
+            return None
+        if n in (0, 1):
+            return n
+        a, b = 0, 1
+        for _ in range(2, n + 1):
+            a, b = b, a + b
+        return b
     
     def secuencia_fibonacci(self, n):
         """
@@ -26,8 +33,16 @@ class Magic:
         Returns:
             list: Lista con los primeros n números de Fibonacci
         """
-        pass
-    
+        if n <= 0:
+            return []
+        secuencia = [0]
+        if n == 1:
+            return secuencia
+        secuencia.append(1)
+        for _ in range(2, n):
+            secuencia.append(secuencia[-1] + secuencia[-2])
+        return secuencia
+
     def es_primo(self, n):
         """
         Verifica si un número es primo.
@@ -38,7 +53,12 @@ class Magic:
         Returns:
             bool: True si n es primo, False en caso contrario
         """
-        pass
+        if n <= 1:
+            return False
+        for i in range(2, int(n**0.5) + 1):
+            if n % i == 0:
+                return False
+        return True
     
     def generar_primos(self, n):
         """
@@ -50,7 +70,11 @@ class Magic:
         Returns:
             list: Lista de números primos hasta n
         """
-        pass
+        primos = []
+        for num in range(2, n + 1):
+            if self.es_primo(num):
+                primos.append(num)
+        return primos
     
     def es_numero_perfecto(self, n):
         """
@@ -62,7 +86,10 @@ class Magic:
         Returns:
             bool: True si n es un número perfecto, False en caso contrario
         """
-        pass
+        if n < 2:
+            return False
+        suma_divisores = sum(i for i in range(1, n) if n % i == 0)
+        return suma_divisores == n
     
     def triangulo_pascal(self, filas):
         """
@@ -74,7 +101,16 @@ class Magic:
         Returns:
             list: Lista de listas que representa el triángulo de Pascal
         """
-        pass
+        if filas <= 0:
+            return []
+        triangulo = [[1]]
+        for i in range(1, filas):
+            fila = [1]
+            for j in range(1, i):
+                fila.append(triangulo[i - 1][j - 1] + triangulo[i - 1][j])
+            fila.append(1)
+            triangulo.append(fila)
+        return triangulo
     
     def factorial(self, n):
         """
@@ -86,7 +122,12 @@ class Magic:
         Returns:
             int: El factorial de n
         """
-        pass
+        if n < 0:
+            return None
+        resultado = 1
+        for i in range(2, n + 1):
+            resultado *= i
+        return resultado
     
     def mcd(self, a, b):
         """
@@ -99,7 +140,9 @@ class Magic:
         Returns:
             int: El máximo común divisor de a y b
         """
-        pass
+        while b:
+            a, b = b, a % b
+        return abs(a)
     
     def mcm(self, a, b):
         """
@@ -112,7 +155,9 @@ class Magic:
         Returns:
             int: El mínimo común múltiplo de a y b
         """
-        pass
+        if a == 0 or b == 0:
+            return 0
+        return abs(a * b) // self.mcd(a, b)
     
     def suma_digitos(self, n):
         """
@@ -124,7 +169,7 @@ class Magic:
         Returns:
             int: La suma de los dígitos de n
         """
-        pass
+        return sum(int(digito) for digito in str(abs(n)))
     
     def es_numero_armstrong(self, n):
         """
@@ -136,7 +181,10 @@ class Magic:
         Returns:
             bool: True si n es un número de Armstrong, False en caso contrario
         """
-        pass
+        num_str = str(abs(n))
+        num_digitos = len(num_str)
+        suma = sum(int(digito) ** num_digitos for digito in num_str)
+        return suma == abs(n)
     
     def es_cuadrado_magico(self, matriz):
         """
@@ -148,4 +196,26 @@ class Magic:
         Returns:
             bool: True si es un cuadrado mágico, False en caso contrario
         """
-        pass
+        n = len(matriz)
+        if any(len(fila) != n for fila in matriz):
+            return False
+        
+        suma_objetivo = sum(matriz[0])
+        
+        # Verificar filas
+        for fila in matriz:
+            if sum(fila) != suma_objetivo:
+                return False
+        
+        # Verificar columnas
+        for j in range(n):
+            if sum(matriz[i][j] for i in range(n)) != suma_objetivo:
+                return False
+        
+        # Verificar diagonales
+        if sum(matriz[i][i] for i in range(n)) != suma_objetivo:
+            return False
+        if sum(matriz[i][n - 1 - i] for i in range(n)) != suma_objetivo:
+            return False
+        
+        return True
